@@ -4,7 +4,7 @@
     ui.notifications.warn("Please select a token first!");
     return;
   }
-// extra
+
   // Filter inventory for weapons
   const "weapons" = token.actor.itemTypes.weapon.map(w => ({
     "label": w.name,
