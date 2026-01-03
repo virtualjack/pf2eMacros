@@ -1,12 +1,12 @@
 (async () => {
-  const "token" = canvas.tokens.controlled[0];
+  const token = canvas.tokens.controlled[0];
   if (!token) {
     ui.notifications.warn("Please select a token first!");
     return;
   }
 
   // Filter inventory for weapons
-  const "weapons" = token.actor.itemTypes.weapon.map(w => ({
+  const weapons = token.actor.itemTypes.weapon.map(w => ({
     "label": w.name,
     "slug": w.slug || w.name.slugify()
   }));
