@@ -52,12 +52,13 @@
     },
     default: "cast"
   }).render(true);
+  var effectData = {};
 
   async function applyVambraceEffect(token, strikingSlug, strikingName, plusoneSlug, plusoneName) {
-    const effectData = {
+    effectData = {
       type: "effect",
-      name: `Vambrace Striking: ${strikingName}; +1: ${plusoneName} `,
-      img: "icons/equipment/wrist/bracer-leather-purple-steel.webp",
+      name: `Twin Spark Vambrace ${strikingName}/${plusoneName}`,
+      img: "icons/equipment/wrist/bracer-banded-leather-pink-gold.webp",
       system: {
         rules: [
           {
@@ -83,7 +84,38 @@
             property: "striking",
             mode: "upgrade",
             value: "1"
+          },
+          {
+            key: "RollOption",
+            predicate: [
+              `item:slug:${plusoneSlug}`,
+              `item:slug:${strikingSlug}`
+            ],
+            option: "second-hit",
+            toggleable: true,
+            value: false,
+          },          
+          {
+            key: "DamageDice",
+            mode: "add",
+            predicate: [ "second-hit" ],
+            selector: [ `${plusoneSlug}` + "-damage" ],
+            diceNumber: 1,
+            damageType: "electricity",
+            dieSize: "d6",
+            label: "2nd strike hits after 1st",
+          },
+          {
+            key: "DamageDice",
+            mode: "add",
+            predicate: [ "second-hit" ],
+            selector: [ `${strikingSlug}` + "-damage" ],
+            diceNumber: 1,
+            damageType: "electricity",
+            dieSize: "d6",
+            label: "2nd strikes hit after 1st",
           }
+
         ],
         duration: {
           value: 2,
@@ -94,6 +126,6 @@
     };
 
     await token.actor.createEmbeddedDocuments("Item", [effectData]);
-    ui.notifications.info(`Magic Weapon applied to ${name}!`);
+    ui.notifications.info(`Vambrace effect applied to ${strikingName} and ${plusoneName}!`);
   }
 })();
